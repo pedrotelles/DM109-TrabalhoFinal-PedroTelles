@@ -61,7 +61,7 @@ public class GearContador {
     }
 
     // FlatMap Function - Json Parser
-    // Receive JSON data from Kafka broker and parse car number, speed and counter
+    // Receive JSON data from Kafka broker and parse car number, gear and counter
     
     // {"Car": 9, "time": "52.196000", "telemetry": {"Vaz": "1.270000", "Distance": "4.605865", "LapTime": "0.128001", 
     // "RPM": "591.266113", "Ay": "24.344515", "Gear": "3.000000", "Throttle": "0.000000", 
@@ -78,9 +78,9 @@ public class GearContador {
       }
     }
 
-    // Reduce Function - Sum samples and count
-    // This funciton return, for each car, the sum of two speed measurements and increment a conter.
-    // The counter is used for the average calculation.
+    // Reduce Function - Conta troca
+    // Essa função retorna para cada carro passado, o numero do carro, a marcha, e caso a marcha seja alterada, a contagem do numero
+    // de trocas de marchas + 1
     static class GearCReducer implements ReduceFunction<Tuple3<String, Float, Integer>> {
       @Override
       public Tuple3<String, Float, Integer> reduce(Tuple3<String, Float,Integer> value1, Tuple3<String, Float, Integer> value2) {
@@ -88,8 +88,8 @@ public class GearContador {
       }
     }
 
-    // FlatMap Function - Average
-    // Calculates the Sum
+    // FlatMap Function - Gear counter
+    // Retorna a contagem final de marchas
     static class GearCMapper implements FlatMapFunction<Tuple3<String, Float, Integer>, Tuple2<String, Integer>> {
       @Override
       public void flatMap(Tuple3<String, Float, Integer> carInfo, Collector<Tuple2<String, Integer>> out) throws Exception {
