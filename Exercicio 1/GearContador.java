@@ -84,7 +84,7 @@ public class GearContador {
     static class GearCReducer implements ReduceFunction<Tuple3<String, Float, Integer>> {
       @Override
       public Tuple3<String, Float, Integer> reduce(Tuple3<String, Float,Integer> value1, Tuple3<String, Float, Integer> value2) {
-        return new Tuple3<>(value1.f0, value1.f1, (value1.f1 != value2.f1) ? value1.f2 + 1 : value1.f2);
+        return new Tuple3<>(value1.f0, value2.f1, (Float.compare(value1.f1,value2.f1)) ? value1.f2 + 1 : value1.f2);
       }
     }
 
