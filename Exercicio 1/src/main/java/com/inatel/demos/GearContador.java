@@ -72,7 +72,7 @@ public class GearContador {
       public void flatMap(ObjectNode jsonTelemetry, Collector<Tuple3<String, Float, Integer>> out) throws Exception {
         String carNumber = jsonTelemetry.get("Car").asText();
         float gear = jsonTelemetry.get("telemetry").get("Gear").floatValue();
-        if(carNumber == "3"){
+        if(carNumber.intern() == "3"){
           out.collect(new Tuple3<>(carNumber, gear, 0 ));
         }
       }
@@ -98,7 +98,7 @@ public class GearContador {
       }
     }
 
-    // Map Function - Print average    
+    // Map Function - Print Counter    
     static class GearCPrinter implements MapFunction<Tuple2<String, Integer>, String> {
       @Override
       public String map(Tuple2<String, Integer> avgEntry) throws Exception {
